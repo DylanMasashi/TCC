@@ -1,0 +1,88 @@
+
+Exemplares {
+	cod_exem int pk
+	cod_livro int > Livros.cod_livro
+	dat_dispo date
+	dat_bloq date
+}
+
+Autor {
+	cod_autor int pk increments unique
+	nome_autor varchar
+}
+
+Gênero {
+	cod_genero int pk increments
+	nome_genero varchar
+}
+
+Editora {
+	cod_editora int pk increments unique
+	nome_editora varchar
+}
+
+Livros {
+	cod_livro int pk unique
+	cod_autor int > Autor.cod_autor
+	cod_genero int > Gênero.cod_genero
+	cod_editora int > Editora.cod_editora
+	des_livro varchar
+}
+
+Professores {
+	prof_cod int pk increments unique
+	prof_nome varchar
+	prof_email varchar
+	prof_senha varchar
+	cod_curso varchar > Cursos.cod_curso
+	etec_cod int > Códigos_ETEC.etec_cod
+}
+
+Recomendação {
+	prof_cod int > Professores.prof_cod
+	cod_curso int > Cursos.cod_curso
+	cod_livro int > Livros.cod_livro
+	cod_exem int > Exemplares.cod_exem
+	cod_emp int > Empréstimo.cod_emp
+	etec_cod int > Códigos_ETEC.etec_cod
+
+Cursos {
+	cod_curso int pk increments unique
+	mod_numb int
+	nome_curso int
+	prof_cod int > Professores.prof_cod
+}
+
+Códigos_ETEC {
+	etec_cod int pk increments unique
+	nome_etec varchar
+	cid_etec varchar
+}
+
+Funcionários {
+	func_cod int pk increments unique
+	func_nome varchar
+	func_email varchar
+	func_senha varchar
+	etec_cod int > Códigos_ETEC.etec_cod
+}
+
+Alunos {
+	alu_cod integer pk increments unique
+	etec_cod integer(3) > Códigos_ETEC.etec_cod
+	alu_foto bit null
+	alu_nome varchar(50)
+	alun_email varchar(50)
+	alu_senha varchar(12)
+	alu_curso varchar(50)
+	alu_mod int(4)
+	alu_sexo varchar unique
+}
+
+Empréstimo {
+	cod_emp int pk
+	alu_cod int >* Alunos.alu_cod
+	cod_exem int > Exemplares.cod_exem
+	dat_emp date
+	dat_devol date
+}
