@@ -1,0 +1,10 @@
+Explicação:
+
+ALIAS
+
+-ALIAS significa Codinome, Alternativa, Pseudonome.
+
+-Ele Renomeia de forma VIRTUAL, não mudando o que está no banco de dados.
+
+
+Inner Join
