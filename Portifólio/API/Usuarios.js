@@ -1,4 +1,4 @@
-const db = require('../database/connection');
+// const db = require('../database/connection');
 
 module.exports = {
     async listarUsuarios(request, response) {
@@ -87,7 +87,52 @@ module.exports = {
             });
         }
     },
-    
+    async apagarUsuarios(request, response) {
+        try {
+            // parâmetro passado via url na chamada da api pelo front-end
+            const { usu_id } = request.params;
+            // comando de exclusão
+            const sql = `DELETE FROM usuarios WHERE usu_id = ?`;
+            // array com parâmetros da exclusão
+            const values = [usu_id];
+            // executa instrução no banco de dados
+            const excluir = await db.query(sql, values);
+
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: `Usuário ${usu_id} excluído com sucesso`,
+                dados: excluir[0].affectedRows
+            });
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
+                dados: error.message
+            });
+        }
+    }, 
+    async ocultarUsuario(request, response) {
+        try {
+            const usu_ativo = false; 
+            const { usu_cod} = request.params; 
+            const sql = `UPDATE usuarios SET usu_ativo = ? 
+                WHERE usu_cod = ?;`;
+            const values = [usu_ativo, usu_cod]; 
+            const atualizacao = await db.query(sql, values); 
+            
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: `Usuário ${usu_cod} excluído com sucesso`,
+                dados: atualizacao[0].affectedRows
+            });
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
+                dados: error.message
+            });
+        }
+    }, 
     async login(request, response) {
         try {
 
