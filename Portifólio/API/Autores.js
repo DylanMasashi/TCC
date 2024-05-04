@@ -28,7 +28,7 @@ module.exports = {
     async cadastrarAutores(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { autor_cod, autor_nome, autor_foto} = request.body;
+            const { autor_nome, autor_foto} = request.body;
             // instrução SQL
             const sql = `INSERT INTO autores
                 (autor_cod, autor_nome, autor_foto) 
@@ -57,15 +57,15 @@ module.exports = {
     async editarAutores(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { autor_cod, autor_nome, autor_foto } = request.body;
+            const { autor_nome, autor_foto } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { autor_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE autores SET autor_cod, autor_nome = ?, 
-                        autor_foto
+            const sql = `UPDATE autores SET autor_cod = ?, autor_nome = ?, 
+                        autor_foto = ?
                         WHERE autor_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [autor_nome, autor_foto, usu_cod];
+            const values = [autor_nome, autor_foto, autor_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
@@ -105,5 +105,6 @@ module.exports = {
                 mensagem: 'Erro na requisição.',
                 dados: error.message
             });
-        }
-    };
+        }    
+    }
+}
