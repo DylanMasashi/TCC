@@ -43,7 +43,7 @@ module.exports = {
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Cadastro de editoras efetuado com sucesso.',
-                dados: autor_cod
+                dados: edt_cod
                 //mensSql: execSql
             });
         } catch (error) {

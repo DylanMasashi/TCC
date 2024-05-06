@@ -28,22 +28,22 @@ module.exports = {
     async cadastrarEmprestimos(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { autor_nome, autor_foto} = request.body;
+            const { usu_cod, exemp_cod, data_emp, data_devol, devolvido} = request.body;
             // instrução SQL
             const sql = `INSERT INTO emprestimos
-                (autor_cod, autor_nome, autor_foto) 
-                VALUES (?, ?, ?)`;
+                (emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido) 
+                VALUES (?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [autor_cod, autor_nome, autor_foto];
+            const values = [emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
-            const autor_cod = execSql[0].insertId;
+            const emp_cod = execSql[0].insertId;
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de emprestimos efetuado com sucesso.',
-                dados: autor_cod
+                mensagem: 'Cadastro de empréstimos efetuado com sucesso.',
+                dados: emp_cod
                 //mensSql: execSql
             });
         } catch (error) {
@@ -57,21 +57,21 @@ module.exports = {
     async editarEmprestimos(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { autor_nome, autor_foto } = request.body;
+            const { usu_cod, exemp_cod, data_emp, data_devol, devolvido } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
-            const { autor_cod } = request.params;
+            const { emp_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE emprestimos SET autor_cod = ?, autor_nome = ?, 
-                        autor_foto = ?
-                        WHERE autor_cod = ?;`;
+            const sql = `UPDATE emprestimos SET emp_cod = ?, usu_cod = ?, 
+                        exemp_cod = ?, data_emp = ?, data_devol = ?, devolvido = ?
+                        WHERE emp_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [autor_nome, autor_foto, autor_cod];
+            const values = [usu_cod, exemp_cod, emp_cod, data_emp, data_devol, devolvido, emp_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Autor ${autor_cod} atualizado com sucesso!`,
+                mensagem: `Emprestimo ${emp_cod} atualizado com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -86,17 +86,17 @@ module.exports = {
     async apagarEmprestimos(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
-            const { autor_cod } = request.params;
+            const { emp_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM emprestimos WHERE autor_cod = ?`;
+            const sql = `DELETE FROM emprestimos WHERE emp_cod = ?`;
             // array com parâmetros da exclusão
-            const values = [autor_cod];
+            const values = [emp_cod];
             // executa instrução no banco de dados
             const excluir = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `emprestimos ${autor_cod} excluído com sucesso`,
+                mensagem: `Empréstimos ${emp_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {
