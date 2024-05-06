@@ -1,20 +1,20 @@
 // const db = require('../database/connection');
 
 module.exports = {
-    async listarAutores(request, response) {
+    async listaremprestimos(request, response) {
         try {
             // instruções SQL
             const sql = `SELECT 
                 autor_cod, autor_nome, autor_foto;`;
             // executa instruções SQL e armazena o resultado na variável usuários
-            const autores = await db.query(sql);
+            const emprestimos = await db.query(sql);
             // armazena em uma variável o número de registros retornados
-            const nItens = autores[0].length;
+            const nItens = emprestimos[0].length;
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Lista de autores.',
-                dados: autores[0],
+                mensagem: 'Lista de emprestimos.',
+                dados: emprestimos[0],
                 nItens
             });
         } catch (error) {
@@ -25,12 +25,12 @@ module.exports = {
             });
         }
     },
-    async cadastrarAutores(request, response) {
+    async cadastraremprestimos(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
             const { autor_nome, autor_foto} = request.body;
             // instrução SQL
-            const sql = `INSERT INTO autores
+            const sql = `INSERT INTO emprestimos
                 (autor_cod, autor_nome, autor_foto) 
                 VALUES (?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
@@ -42,7 +42,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de autores efetuado com sucesso.',
+                mensagem: 'Cadastro de emprestimos efetuado com sucesso.',
                 dados: autor_cod
                 //mensSql: execSql
             });
@@ -54,14 +54,14 @@ module.exports = {
             });
         }
     },
-    async editarAutores(request, response) {
+    async editaremprestimos(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
             const { autor_nome, autor_foto } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { autor_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE autores SET autor_cod = ?, autor_nome = ?, 
+            const sql = `UPDATE emprestimos SET autor_cod = ?, autor_nome = ?, 
                         autor_foto = ?
                         WHERE autor_cod = ?;`;
             // preparo do array com dados que serão atualizados
@@ -83,12 +83,12 @@ module.exports = {
             });
         }
     },
-    async apagarAutores(request, response) {
+    async apagaremprestimos(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
             const { autor_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM autores WHERE autor_cod = ?`;
+            const sql = `DELETE FROM emprestimos WHERE autor_cod = ?`;
             // array com parâmetros da exclusão
             const values = [autor_cod];
             // executa instrução no banco de dados
@@ -96,7 +96,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Autores ${autor_cod} excluído com sucesso`,
+                mensagem: `emprestimos ${autor_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {
