@@ -1,20 +1,20 @@
 // const db = require('../database/connection');
 
 module.exports = {
-    async listarExemplares(request, response) {
+    async listarUsuarios_Cursos(request, response) {
         try {
             // instruções SQL
             const sql = `SELECT 
-                exem_cod, livro_cod, exem_tombo, exem_data_aquis, exem_data_saida;`;
+                uc_cod, usu_cod, curso_cod;`;
             // executa instruções SQL e armazena o resultado na variável usuários
-            const exemplares = await db.query(sql);
+            const usuarios_cursos = await db.query(sql);
             // armazena em uma variável o número de registros retornados
-            const nItens = exemplares[0].length;
+            const nItens = usuarios_cursos[0].length;
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Lista de exemplares.',
-                dados: exemplares[0],
+                mensagem: 'Lista dos Usuários e seus Cursos.',
+                dados: usuarios_cursos[0],
                 nItens
             });
         } catch (error) {
@@ -25,25 +25,25 @@ module.exports = {
             });
         }
     },
-    async cadastrarExemplares(request, response) {
+    async cadastrarUsuarios_Cursos(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { livro_cod, exem_tombo, exem_data_aquis, exem_data_saida} = request.body;
+            const {usu_cod, curso_cod} = request.body;
             // instrução SQL
-            const sql = `INSERT INTO exemplares
-                (exem_cod, livro_cod, exem_tombo, exem_data_aquis, exem_data_saida) 
-                VALUES (?, ?, ?, ?, ?, ?)`;
+            const sql = `INSERT INTO usuarios_cursos
+                (uc_cod, usu_cod, curso_cod) 
+                VALUES (?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [exem_cod, livro_cod, exem_tombo, exem_data_aquis, exem_data_saida];
+            const values = [uc_cod, usu_cod, curso_cod];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
-            const exem_cod = execSql[0].insertId;
+            const uc_cod = execSql[0].insertId;
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de empréstimos efetuado com sucesso.',
-                dados: exem_cod
+                mensagem: 'Cadastro de Usuários e Cursos efetuado com sucesso.',
+                dados: uc_cod
                 //mensSql: execSql
             });
         } catch (error) {
@@ -54,24 +54,24 @@ module.exports = {
             });
         }
     },
-    async editarexemplares(request, response) {
+    async editarUsuarios_Cursos(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { livro_cod, exem_tombo, exem_data_aquis, exem_data_saida} = request.body;
+            const { usu_cod, curso_cod } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
-            const { exem_cod } = request.params;
+            const { uc_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE exemplares SET exem_cod = ?, livro_cod = ?, 
-                        exem_tombo = ?, exem_data_aquis = ?, exem_data_saida = ?,
-                        WHERE exem_cod = ?;`;
+            const sql = `UPDATE usuarios_cursos SET uc_cod = ?, usu_cod = ?, 
+                        curso_cod = ?
+                        WHERE uc_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [ livro_cod, exem_tombo, exem_data_aquis, exem_data_saida, exem_cod];
+            const values = [usu_cod, curso_cod, uc_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Exemplar ${exem_cod} atualizado com sucesso!`,
+                mensagem: `Usuário e Curso ${uc_cod} atualizado com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -83,20 +83,20 @@ module.exports = {
             });
         }
     },
-    async apagarExemplares(request, response) {
+    async apagarUsuarios_Cursos(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
-            const { exem_cod } = request.params;
+            const { uc_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM exemplares WHERE exem_cod = ?`;
+            const sql = `DELETE FROM usuarios_cursos WHERE uc_cod = ?`;
             // array com parâmetros da exclusão
-            const values = [exem_cod];
+            const values = [uc_cod];
             // executa instrução no banco de dados
             const excluir = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Exemplar ${exem_cod} excluído com sucesso`,
+                mensagem: `Usuário e Curso ${uc_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {
