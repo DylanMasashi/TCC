@@ -42,7 +42,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de empréstimos efetuado com sucesso.',
+                mensagem: 'Cadastro do empréstimo efetuado com sucesso.',
                 dados: emp_cod
                 //mensSql: execSql
             });
@@ -96,7 +96,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Empréstimos ${emp_cod} excluído com sucesso`,
+                mensagem: `Empréstimo ${emp_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

@@ -42,7 +42,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de gêneros efetuado com sucesso.',
+                mensagem: 'Cadastro do gênero efetuado com sucesso.',
                 dados: gen_cod
                 //mensSql: execSql
             });
@@ -96,7 +96,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Gêneros ${gen_cod} excluído com sucesso`,
+                mensagem: `Gênero ${gen_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

@@ -45,7 +45,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de usuário efetuado com sucesso.',
+                mensagem: 'Cadastro do usuário efetuado com sucesso.',
                 dados: usu_cod
                 //mensSql: execSql
             });

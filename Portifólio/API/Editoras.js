@@ -42,7 +42,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de editoras efetuado com sucesso.',
+                mensagem: 'Cadastro da editora efetuado com sucesso.',
                 dados: edt_cod
                 //mensSql: execSql
             });
@@ -71,7 +71,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Editora ${edt_cod} atualizado com sucesso!`,
+                mensagem: `Editora ${edt_cod} atualizada com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -96,7 +96,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Editoras ${edt_cod} excluído com sucesso`,
+                mensagem: `Editora ${edt_cod} excluída com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

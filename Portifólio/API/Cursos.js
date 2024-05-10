@@ -42,7 +42,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de cursos efetuado com sucesso.',
+                mensagem: 'Cadastro do curso efetuado com sucesso.',
                 dados: curso_cod
                 //mensSql: execSql
             });
@@ -96,7 +96,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Cursos ${curso_cod} excluído com sucesso`,
+                mensagem: `Curso ${curso_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

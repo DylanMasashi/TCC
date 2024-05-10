@@ -1,20 +1,20 @@
 // const db = require('../database/connection');
 
 module.exports = {
-    async listarEmprestimos(request, response) {
+    async listarRecomendacao(request, response) {
         try {
             // instruções SQL
             const sql = `SELECT 
                 emp_cod, data_emp, data_devol, devolvido;`;
             // executa instruções SQL e armazena o resultado na variável usuários
-            const emprestimos = await db.query(sql);
+            const recomendacao = await db.query(sql);
             // armazena em uma variável o número de registros retornados
-            const nItens = emprestimos[0].length;
+            const nItens = recomendacao[0].length;
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Lista de emprestimos.',
-                dados: emprestimos[0],
+                mensagem: 'Lista de recomendações.',
+                dados: recomendacao[0],
                 nItens
             });
         } catch (error) {
@@ -25,12 +25,12 @@ module.exports = {
             });
         }
     },
-    async cadastrarEmprestimos(request, response) {
+    async cadastrarRecomendacao(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
             const { usu_cod, exemp_cod, data_emp, data_devol, devolvido} = request.body;
             // instrução SQL
-            const sql = `INSERT INTO emprestimos
+            const sql = `INSERT INTO recomendacao
                 (emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido) 
                 VALUES (?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
@@ -42,7 +42,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Cadastro de empréstimos efetuado com sucesso.',
+                mensagem: 'Cadastro da recomendação efetuada com sucesso.',
                 dados: emp_cod
                 //mensSql: execSql
             });
@@ -54,14 +54,14 @@ module.exports = {
             });
         }
     },
-    async editarEmprestimos(request, response) {
+    async editarRecomendacao(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
             const { usu_cod, exemp_cod, data_emp, data_devol, devolvido } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { emp_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE emprestimos SET emp_cod = ?, usu_cod = ?, 
+            const sql = `UPDATE recomendacao SET emp_cod = ?, usu_cod = ?, 
                         exemp_cod = ?, data_emp = ?, data_devol = ?, devolvido = ?
                         WHERE emp_cod = ?;`;
             // preparo do array com dados que serão atualizados
@@ -71,7 +71,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Emprestimo ${emp_cod} atualizado com sucesso!`,
+                mensagem: `Recomendação ${emp_cod} atualizada com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -83,12 +83,12 @@ module.exports = {
             });
         }
     },
-    async apagarEmprestimos(request, response) {
+    async apagarRecomendacao(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
             const { emp_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM emprestimos WHERE emp_cod = ?`;
+            const sql = `DELETE FROM recomendacao WHERE emp_cod = ?`;
             // array com parâmetros da exclusão
             const values = [emp_cod];
             // executa instrução no banco de dados
@@ -96,7 +96,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Empréstimos ${emp_cod} excluído com sucesso`,
+                mensagem: `Recomendação ${emp_cod} excluída com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {
