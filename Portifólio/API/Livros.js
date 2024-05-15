@@ -4,8 +4,12 @@ module.exports = {
     async listarLivros(request, response) {
         try {
             // instruções SQL
-            const sql = `SELECT 
-                livro_cod, livro_pha_cod, livro_categ_cod, livro_nome, livro_desc, edt_cod, livro_foto_capa;`;
+            const sql = `liv.livro_cod, liv.livro_desc, 
+            liv.livro_categ_cod, liv.livro_foto_capa, 
+            liv.livro_nome, liv.livro_pha_cod, edt.edt_nome, edt.edt_foto 
+            from livros liv 
+            inner join editora edt on edt.edt_cod = liv.edt_cod 
+            where liv.livro_cod = ?;`;
             // executa instruções SQL e armazena o resultado na variável usuários
             const livros = await db.query(sql);
             // armazena em uma variável o número de registros retornados
