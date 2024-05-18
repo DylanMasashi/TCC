@@ -1,0 +1,9 @@
+Editora, Autores, Gêneros, Cursos
+
+Livro, Usuarios
+
+Exemplares, Livro_Autor, Livro_Genero, Usuario_Cursos
+
+Usuarios
+
+Emprestimos
