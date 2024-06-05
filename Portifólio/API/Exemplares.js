@@ -5,7 +5,7 @@ module.exports = {
         try {
             // instruções SQL
             const sql = `SELECT 
-                exem_cod, livro_cod, exem_tombo, exem_data_aquis, exem_data_saida;`;
+                exe_cod, liv_cod, exe_tombo, exe_data_aquis, exe_data_saida;`;
             // executa instruções SQL e armazena o resultado na variável usuários
             const exemplares = await db.query(sql);
             // armazena em uma variável o número de registros retornados
@@ -28,22 +28,22 @@ module.exports = {
     async cadastrarExemplares(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { livro_cod, exem_tombo, exem_data_aquis, exem_data_saida} = request.body;
+            const { liv_cod, exe_tombo, exe_data_aquis, exe_data_saida} = request.body;
             // instrução SQL
             const sql = `INSERT INTO exemplares
-                (exem_cod, livro_cod, exem_tombo, exem_data_aquis, exem_data_saida) 
+                (exe_cod, liv_cod, exe_tombo, exe_data_aquis, exe_data_saida) 
                 VALUES (?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [exem_cod, livro_cod, exem_tombo, exem_data_aquis, exem_data_saida];
+            const values = [exe_cod, liv_cod, exe_tombo, exe_data_aquis, exe_data_saida];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
-            const exem_cod = execSql[0].insertId;
+            const exe_cod = execSql[0].insertId;
 
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Cadastro do exemplar efetuado com sucesso.',
-                dados: exem_cod
+                dados: exe_cod
                 //mensSql: execSql
             });
         } catch (error) {
@@ -57,21 +57,21 @@ module.exports = {
     async editarexemplares(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { livro_cod, exem_tombo, exem_data_aquis, exem_data_saida} = request.body;
+            const { liv_cod, exe_tombo, exe_data_aquis, exe_data_saida} = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
-            const { exem_cod } = request.params;
+            const { exe_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE exemplares SET exem_cod = ?, livro_cod = ?, 
-                        exem_tombo = ?, exem_data_aquis = ?, exem_data_saida = ?,
-                        WHERE exem_cod = ?;`;
+            const sql = `UPDATE exemplares SET exe_cod = ?, liv_cod = ?, 
+                        exe_tombo = ?, exe_data_aquis = ?, exe_data_saida = ?,
+                        WHERE exe_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [ livro_cod, exem_tombo, exem_data_aquis, exem_data_saida, exem_cod];
+            const values = [ liv_cod, exe_tombo, exe_data_aquis, exe_data_saida, exe_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Exemplar ${exem_cod} atualizado com sucesso!`,
+                mensagem: `Exemplar ${exe_cod} atualizado com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -86,17 +86,17 @@ module.exports = {
     async apagarExemplares(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
-            const { exem_cod } = request.params;
+            const { exe_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM exemplares WHERE exem_cod = ?`;
+            const sql = `DELETE FROM exemplares WHERE exe_cod = ?`;
             // array com parâmetros da exclusão
-            const values = [exem_cod];
+            const values = [exe_cod];
             // executa instrução no banco de dados
             const excluir = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Exemplar ${exem_cod} excluído com sucesso`,
+                mensagem: `Exemplar ${exe_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

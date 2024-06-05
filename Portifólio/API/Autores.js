@@ -5,7 +5,7 @@ module.exports = {
         try {
             // instruções SQL
             const sql = `SELECT 
-                autor_cod, autor_nome, autor_foto;`;
+                aut_cod, aut_nome, aut_foto;`;
             // executa instruções SQL e armazena o resultado na variável usuários
             const autores = await db.query(sql);
             // armazena em uma variável o número de registros retornados
@@ -28,22 +28,22 @@ module.exports = {
     async cadastrarAutores(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { autor_nome, autor_foto} = request.body;
+            const { aut_nome, aut_foto} = request.body;
             // instrução SQL
             const sql = `INSERT INTO autores
-                (autor_cod, autor_nome, autor_foto) 
+                (aut_cod, aut_nome, aut_foto) 
                 VALUES (?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [autor_cod, autor_nome, autor_foto];
+            const values = [aut_cod, aut_nome, aut_foto];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
-            const autor_cod = execSql[0].insertId;
+            const aut_cod = execSql[0].insertId;
 
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Cadastro do autor efetuado com sucesso.',
-                dados: autor_cod
+                dados: aut_cod
                 //mensSql: execSql
             });
         } catch (error) {
@@ -57,21 +57,21 @@ module.exports = {
     async editarAutores(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { autor_nome, autor_foto } = request.body;
+            const { aut_nome, aut_foto } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
-            const { autor_cod } = request.params;
+            const { aut_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE autores SET autor_cod = ?, autor_nome = ?, 
-                        autor_foto = ?
-                        WHERE autor_cod = ?;`;
+            const sql = `UPDATE autores SET aut_cod = ?, aut_nome = ?, 
+                        aut_foto = ?
+                        WHERE aut_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [autor_nome, autor_foto, autor_cod];
+            const values = [aut_nome, aut_foto, aut_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Autor ${autor_cod} atualizado com sucesso!`,
+                mensagem: `Autor ${aut_cod} atualizado com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -86,17 +86,17 @@ module.exports = {
     async apagarAutores(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
-            const { autor_cod } = request.params;
+            const { aut_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM autores WHERE autor_cod = ?`;
+            const sql = `DELETE FROM autores WHERE aut_cod = ?`;
             // array com parâmetros da exclusão
-            const values = [autor_cod];
+            const values = [aut_cod];
             // executa instrução no banco de dados
             const excluir = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Autor ${autor_cod} excluído com sucesso`,
+                mensagem: `Autor ${aut_cod} excluído com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

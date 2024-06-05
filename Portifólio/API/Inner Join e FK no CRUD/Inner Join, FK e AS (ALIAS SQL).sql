@@ -1,6 +1,6 @@
 -- Tabela: Livros
 CREATE TABLE Livros (
-    livro_cod INT AUTO_INCREMENT PRIMARY KEY,
+    liv_cod INT AUTO_INCREMENT PRIMARY KEY,
     livro_categ_cod INT,
     livro_nome VARCHAR(255)    
 );
@@ -15,9 +15,9 @@ CREATE TABLE Generos (
 -- Tabela: LIVRO_GENERO
 CREATE TABLE LIVRO_GENERO (
     lg_cod INT AUTO_INCREMENT PRIMARY KEY,
-    livro_cod INT,
+    liv_cod INT,
     gen_cod INT,
-    FOREIGN KEY (livro_cod) REFERENCES Livros(livro_cod),
+    FOREIGN KEY (liv_cod) REFERENCES Livros(liv_cod),
     FOREIGN KEY (gen_cod) REFERENCES Generos(gen_cod)
 );
 
@@ -29,9 +29,9 @@ SELECT * FROM LIVRO_GENERO
 		   Gen.gen_nome   AS Genero
 	  FROM LIVRO_GENERO AS Lge
 INNER JOIN Generos 		AS Gen ON Lge.gen_cod   = Gen.gen_cod
-INNER JOIN Livros  		AS Liv ON Lge.livro_cod = Liv.livro_cod
+INNER JOIN Livros  		AS Liv ON Lge.liv_cod = Liv.liv_cod
 
-INSERT INTO Livros AS Liv (livro_cod, livro_nome) 
+INSERT INTO Livros AS Liv (liv_cod, livro_nome) 
 
 LEFT  JOIN
 RIGHT JOIN
@@ -60,7 +60,7 @@ INSERT INTO Generos (gen_nome, gen_foto) VALUES
 ('Aventura', 'aventura.jpg');
 
 -- Inserts para a tabela LIVRO_GENERO
-INSERT INTO LIVRO_GENERO (livro_cod, gen_cod) VALUES
+INSERT INTO LIVRO_GENERO (liv_cod, gen_cod) VALUES
 (1, 4),
 (2, 2),
 (3, 3),

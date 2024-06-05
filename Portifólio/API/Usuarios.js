@@ -5,8 +5,8 @@ module.exports = {
         try {
             // instruções SQL
             const sql = `SELECT 
-                usu_RA, usu_nome, usu_email, usu_tipo, 
-                usu_foto, usu_ativo = 1 AS usu_ativo  
+                usu_rm, usu_nome, usu_email, usu_tipo, 
+                usu_foto, usu_ativo
                 FROM usuarios 
                 WHERE usu_ativo = 1;`;
             // executa instruções SQL e armazena o resultado na variável usuários

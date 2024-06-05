@@ -5,7 +5,7 @@ module.exports = {
         try {
             // instruções SQL
             const sql = `SELECT 
-                emp_cod, data_emp, data_devol, devolvido;`;
+                rcm_cod, cur_cod, liv_cod, usu_cod, rcm_mod1, rcm_mod2, rcm_mod3, rcm_mod4;`;
             // executa instruções SQL e armazena o resultado na variável usuários
             const recomendacao = await db.query(sql);
             // armazena em uma variável o número de registros retornados
@@ -28,22 +28,22 @@ module.exports = {
     async cadastrarRecomendacao(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { usu_cod, exemp_cod, data_emp, data_devol, devolvido} = request.body;
+            const {cur_cod, liv_cod, usu_cod, rcm_mod1, rcm_mod2, rcm_mod3, rcm_mod4} = request.body;
             // instrução SQL
             const sql = `INSERT INTO recomendacao
-                (emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido) 
-                VALUES (?, ?, ?, ?, ?, ?)`;
+                (rcm_cod, cur_cod, liv_cod, usu_cod, rcm_mod1, rcm_mod2, rcm_mod3, rcm_mod4) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido];
+            const values = [rcm_cod, cur_cod, liv_cod, usu_cod, rcm_mod1, rcm_mod2, rcm_mod3, rcm_mod4];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
-            const emp_cod = execSql[0].insertId;
+            const rcm_cod = execSql[0].insertId;
 
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Cadastro da recomendação efetuada com sucesso.',
-                dados: emp_cod
+                dados: rcm_cod
                 //mensSql: execSql
             });
         } catch (error) {
@@ -57,21 +57,20 @@ module.exports = {
     async editarRecomendacao(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { usu_cod, exemp_cod, data_emp, data_devol, devolvido } = request.body;
+            const { cur_cod, liv_cod, usu_cod, rcm_mod1, rcm_mod2, rcm_mod3, rcm_mod4 } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
-            const { emp_cod } = request.params;
+            const { rcm_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE recomendacao SET emp_cod = ?, usu_cod = ?, 
-                        exemp_cod = ?, data_emp = ?, data_devol = ?, devolvido = ?
-                        WHERE emp_cod = ?;`;
+            const sql = `UPDATE recomendacao SET rcm_cod = ?, cur_cod = ?, liv_cod = ?,
+             usu_cod = ?, rcm_mod1 = ?, rcm_mod2 = ?, rcm_mod3 = ?, rcm_mod4 = ?`;
             // preparo do array com dados que serão atualizados
-            const values = [usu_cod, exemp_cod, emp_cod, data_emp, data_devol, devolvido, emp_cod];
+            const values = [rcm_cod, cur_cod, liv_cod, usu_cod, rcm_mod1, rcm_mod2, rcm_mod3, rcm_mod4];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Recomendação ${emp_cod} atualizada com sucesso!`,
+                mensagem: `Recomendação ${rcm_cod} atualizada com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
@@ -86,17 +85,17 @@ module.exports = {
     async apagarRecomendacao(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
-            const { emp_cod } = request.params;
+            const { rcm_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM recomendacao WHERE emp_cod = ?`;
+            const sql = `DELETE FROM recomendacao WHERE rcm_cod = ?`;
             // array com parâmetros da exclusão
-            const values = [emp_cod];
+            const values = [rcm_cod];
             // executa instrução no banco de dados
             const excluir = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Recomendação ${emp_cod} excluída com sucesso`,
+                mensagem: `Recomendação ${rcm_cod} excluída com sucesso`,
                 dados: excluir[0].affectedRows
             });
         } catch (error) {

@@ -5,7 +5,7 @@ module.exports = {
         try {
             // instruções SQL
             const sql = `SELECT 
-                emp_cod, data_emp, data_devol, devolvido;`;
+                emp_cod, data_emp, data_devol, emp_devolvido;`;
             // executa instruções SQL e armazena o resultado na variável usuários
             const emprestimos = await db.query(sql);
             // armazena em uma variável o número de registros retornados
@@ -28,13 +28,13 @@ module.exports = {
     async cadastrarEmprestimos(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { usu_cod, exemp_cod, data_emp, data_devol, devolvido} = request.body;
+            const { usu_cod, exe_cod, data_emp, data_devol, emp_devolvido} = request.body;
             // instrução SQL
             const sql = `INSERT INTO emprestimos
-                (emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido) 
+                (emp_cod, usu_cod, exe_cod, data_emp, data_devol, emp_devolvido) 
                 VALUES (?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [emp_cod, usu_cod, exemp_cod, data_emp, data_devol, devolvido];
+            const values = [emp_cod, usu_cod, exe_cod, data_emp, data_devol, emp_devolvido];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
@@ -57,15 +57,15 @@ module.exports = {
     async editarEmprestimos(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { usu_cod, exemp_cod, data_emp, data_devol, devolvido } = request.body;
+            const { usu_cod, exe_cod, data_emp, data_devol, emp_devolvido } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { emp_cod } = request.params;
             // instruções SQL
             const sql = `UPDATE emprestimos SET emp_cod = ?, usu_cod = ?, 
-                        exemp_cod = ?, data_emp = ?, data_devol = ?, devolvido = ?
+                        exe_cod = ?, data_emp = ?, data_devol = ?, emp_devolvido = ?
                         WHERE emp_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [usu_cod, exemp_cod, emp_cod, data_emp, data_devol, devolvido, emp_cod];
+            const values = [usu_cod, exe_cod, emp_cod, data_emp, data_devol, emp_devolvido, emp_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 

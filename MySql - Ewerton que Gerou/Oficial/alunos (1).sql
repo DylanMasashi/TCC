@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Exemplares` (
 	`livro_cod` int NOT NULL,
 	`exem_tombo` int NOT NULL,
 	`exem_data_aquis` date NOT NULL,
-	`exem_data_saida` date,
+	`exe_data_saida` date,
 	PRIMARY KEY (`exem_cod`)
 );
 
