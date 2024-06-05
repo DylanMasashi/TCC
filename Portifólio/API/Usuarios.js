@@ -31,13 +31,13 @@ module.exports = {
     async cadastrarUsuarios(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { usu_nome, usu_email, usu_senha, usu_tipo, usu_sexo, usu_ativo } = request.body;
+            const { usu_rm, usu_nome, usu_email, usu_senha, usu_tipo, usu_sexo, usu_ativo } = request.body;
             // instrução SQL
             const sql = `INSERT INTO usuarios 
-                (usu_RA, usu_nome, usu_email, usu_senha, usu_tipo, usu_sexo, usu_ativo) 
+                (usu_rm, usu_nome, usu_email, usu_senha, usu_tipo, usu_sexo, usu_ativo) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [usu_RA, usu_nome, usu_email, usu_senha, usu_tipo, usu_sexo, usu_ativo];
+            const values = [usu_rm, usu_nome, usu_email, usu_senha, usu_tipo, usu_sexo, usu_ativo];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
@@ -64,7 +64,7 @@ module.exports = {
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { usu_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE usuarios SET usu_RA = ?, usu_nome = ?, 
+            const sql = `UPDATE usuarios SET usu_nome = ?, 
                         usu_email = ?, usu_senha = ?, usu_tipo = ?, 
                         usu_sexo = ?, usu_ativo = ? 
                         WHERE usu_cod = ?;`;
@@ -90,11 +90,11 @@ module.exports = {
     async apagarUsuarios(request, response) {
         try {
             // parâmetro passado via url na chamada da api pelo front-end
-            const { usu_id } = request.params;
+            const { usu_cod } = request.params;
             // comando de exclusão
             const sql = `DELETE FROM usuarios WHERE usu_id = ?`;
             // array com parâmetros da exclusão
-            const values = [usu_id];
+            const values = [usu_cod];
             // executa instrução no banco de dados
             const excluir = await db.query(sql, values);
 
@@ -114,7 +114,7 @@ module.exports = {
     async ocultarUsuario(request, response) {
         try {
             const usu_ativo = false; 
-            const { usu_cod} = request.params; 
+            const { usu_cod } = request.params; 
             const sql = `UPDATE usuarios SET usu_ativo = ? 
                 WHERE usu_cod = ?;`;
             const values = [usu_ativo, usu_cod]; 
