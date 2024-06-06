@@ -5,7 +5,11 @@ module.exports = {
         try {
             // instruções SQL
             const sql = `SELECT 
-                emp_cod, data_emp, data_devol, emp_devolvido;`;
+                emp_cod, usu_cod, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido
+                FROM emprestimos emp
+                Inner Join exemplares exe ON emp.exe_cod = exe.exe_cod
+                Inner Join usuarios usu ON emp.usu_cod = usu.usu_cod
+                Where usu_cod = ?;`;
             // executa instruções SQL e armazena o resultado na variável usuários
             const emprestimos = await db.query(sql);
             // armazena em uma variável o número de registros retornados
@@ -13,7 +17,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Lista de emprestimos.',
+                mensagem: 'Lista de empréstimos.',
                 dados: emprestimos[0],
                 nItens
             });
@@ -28,13 +32,13 @@ module.exports = {
     async cadastrarEmprestimos(request, response) {
         try {
             // parâmetros recebidos no corpo da requisição
-            const { usu_cod, exe_cod, data_emp, data_devol, emp_devolvido} = request.body;
+            const { usu_cod, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido} = request.body;
             // instrução SQL
             const sql = `INSERT INTO emprestimos
-                (emp_cod, usu_cod, exe_cod, data_emp, data_devol, emp_devolvido) 
+                (emp_cod, usu_cod, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido) 
                 VALUES (?, ?, ?, ?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
-            const values = [emp_cod, usu_cod, exe_cod, data_emp, data_devol, emp_devolvido];
+            const values = [emp_cod, usu_cod, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido];
             // execução da instrução sql passando os parâmetros
             const execSql = await db.query(sql, values);
             // identificação do ID do registro inserido
@@ -57,21 +61,21 @@ module.exports = {
     async editarEmprestimos(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
-            const { usu_cod, exe_cod, data_emp, data_devol, emp_devolvido } = request.body;
+            const { usu_cod, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido } = request.body;
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { emp_cod } = request.params;
             // instruções SQL
             const sql = `UPDATE emprestimos SET emp_cod = ?, usu_cod = ?, 
-                        exe_cod = ?, data_emp = ?, data_devol = ?, emp_devolvido = ?
+                        exe_cod = ?, emp_data_emp = ?, emp_data_devol = ?, emp_devolvido = ?
                         WHERE emp_cod = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [usu_cod, exe_cod, emp_cod, data_emp, data_devol, emp_devolvido, emp_cod];
+            const values = [usu_cod, exe_cod, emp_cod, emp_data_emp, emp_data_devol, emp_devolvido, emp_cod];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Emprestimo ${emp_cod} atualizado com sucesso!`,
+                mensagem: `Empréstimo ${emp_cod} atualizado com sucesso!`,
                 dados: atualizaDados[0].affectedRows
                 // mensSql: atualizaDados
             });
