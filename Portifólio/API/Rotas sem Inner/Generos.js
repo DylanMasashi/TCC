@@ -61,8 +61,8 @@ module.exports = {
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { gen_cod } = request.params;
             // instruções SQL
-            const sql = `UPDATE generos SET gen_cod, gen_nome = ?, 
-                        gen_foto
+            const sql = `UPDATE generos SET gen_cod = ?, gen_nome = ?, 
+                        gen_foto = ?
                         WHERE gen_cod = ?;`;
             // preparo do array com dados que serão atualizados
             const values = [gen_nome, gen_foto, gen_cod];

@@ -92,7 +92,7 @@ module.exports = {
             // parâmetro passado via url na chamada da api pelo front-end
             const { usu_cod } = request.params;
             // comando de exclusão
-            const sql = `DELETE FROM usuarios WHERE usu_id = ?`;
+            const sql = `DELETE FROM usuarios WHERE usu_cod = ?`;
             // array com parâmetros da exclusão
             const values = [usu_cod];
             // executa instrução no banco de dados

@@ -62,7 +62,7 @@ module.exports = {
             const { lau_cod } = request.params;
             // instruções SQL
             const sql = `UPDATE livros_autores SET lau_cod = ?, usu_cod = ?, 
-                        exlau_cod = ?, aut_cod = ?, liv_cod = ?
+                        lau_cod = ?, aut_cod = ?, liv_cod = ?
                         WHERE lau_cod = ?;`;
             // preparo do array com dados que serão atualizados
             const values = [aut_cod, liv_cod, lau_cod];

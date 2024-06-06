@@ -3,15 +3,18 @@
 module.exports = {
     async listarEmprestimos(request, response) {
         try {
+            const {usu_nome} = request.body
+            const nomePesq = usu_nome ? `%${usu_nome}%` : '%%';
             // instruções SQL
             const sql = `SELECT 
-                emp_cod, usu_cod, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido
+                emp.emp_cod, usu.usu_nome as usu_nome, exe_cod, emp_data_emp, emp_data_devol, emp_devolvido
                 FROM emprestimos emp
-                Inner Join exemplares exe ON emp.exe_cod = exe.exe_cod
-                Inner Join usuarios usu ON emp.usu_cod = usu.usu_cod
-                Where usu_cod = ?;`;
+                Inner Join exemplares exe ON exe.exe_cod = emp.exe_cod
+                Inner Join usuarios usu ON usu.usu_cod = emp.usu_cod
+                Where usu.usu_nome = ?;`;
             // executa instruções SQL e armazena o resultado na variável usuários
-            const emprestimos = await db.query(sql);
+            const values = [nomePesq];
+            const emprestimos = await db.query(sql, values);
             // armazena em uma variável o número de registros retornados
             const nItens = emprestimos[0].length;
 
